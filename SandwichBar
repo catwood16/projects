@@ -1,0 +1,48 @@
+ public class SandwichBar
+   {
+      public int whichOrder(String[] available, String[] orders){
+  		
+  		int[] indcount = new int[orders.length]; 
+  		int[] okay = new int[orders.length];
+  		int position = -1;
+  		
+  		for (int ii = 0; ii < available.length; ii++){
+  			for (int jj = 0; jj< available.length; jj++){
+  				if (ii == jj){ 
+  					available[ii] = available[ii];
+  				}else if (available[ii].equals(available[jj])){
+  					available[ii] = "-----0";
+  				}else{
+  					available[ii] = available[ii];
+  				}
+  			}
+  		}
+  		
+  		for (int i = 0; i < orders.length; i++){
+  			String[] ordercomp = orders[i].split(" ");
+  			for (int j = 0; j < ordercomp.length; j++){
+  				for (int k = 0; k < available.length; k++){
+  					if (available[k].equals(ordercomp[j])){
+  						indcount[i] = indcount[i] + 1;
+  					}
+  					else {
+  						indcount[i] = indcount[i];
+  					}
+  				}
+  			}
+  			if (indcount[i] == ordercomp.length){
+  				okay[i] = 1;
+  			}else{
+  				okay[i] = 0;
+  			}
+  			
+  			if (okay[i] == 1){
+  				position = i;
+  				break;
+  			}else{
+  				position = -1;
+  			}
+  		}
+  		return position;
+      }
+   }
