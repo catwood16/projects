@@ -5,59 +5,37 @@ import java.util.*;
 
 public class IsomorphicWords {
       public int countPairs(String[] words) {
-    	  HashMap<Character, ArrayList<Character>> mapa = new HashMap<Character, ArrayList<Character>>();
-    	  HashMap<Character, ArrayList<Character>> mapb = new HashMap<Character, ArrayList<Character>>();
-    	  int count = 0;
+
+    	  int count = 0; 
     	  
     	  for (int i = 0; i < words.length; i++){
     		  for (int j = i + 1; j < words.length; j++){
+    			  if (i != j){
+    	    	  HashMap<Character, Character> mapa = new HashMap<Character, Character>();
+    			  boolean x = true;
     			  for (int k = 0; k < words[i].length(); k++){
     				  if (!mapa.containsKey(words[i].charAt(k))){
-    					  ArrayList<Character> chara = new ArrayList<Character>();
-    					  chara.add(words[j].charAt(k));
-    					  mapa.put(words[i].charAt(k), chara);
-    				  }else{   
-    					  ArrayList <Character> chara = mapa.get(words[i].charAt(k));
-    					  chara.add(words[j].charAt(k));
-    					  mapa.put(words[i].charAt(k), chara);
-    				  }
-    				  
-    				  if (!mapb.containsKey(words[j].charAt(k))){
-    					  ArrayList<Character> charb = new ArrayList<Character>();
-    					  charb.add(words[i].charAt(k));
-    					  mapb.put(words[j].charAt(k), charb);
-    				  }else{   
-    					  ArrayList <Character> charb = mapb.get(words[j].charAt(k));
-    					  charb.add(words[i].charAt(k));
-    					  mapb.put(words[j].charAt(k), charb);
+    					  mapa.put(words[i].charAt(k), words[j].charAt(k));
+    				  }else{
+    					  if(mapa.get(words[i].charAt(k)) != words[j].charAt(k)){
+    						  x = false;
+    						  break;
+    					  }
     				  }
     			  }
-    			  
-    			  boolean x = true; 
-    			  for (Character a : mapa.keySet()){
-    				  if (mapa.get(a).size() != 1){
-    					  x = false;
-    				  }
+    			  if (x){
+    				  count++;
+    			  } 
     			  }
-    			  
-    			  for (Character b : mapb.keySet()){
-    				  if (mapb.get(b).size() != 1){
-    					  x = false;
-    				  }
-    			  }
-    			  
-    			  if (x == true){
-    				  count ++;
-    			  }
-    			  
     		  }
-    	  }
-    	return count;  
+    		  
+    	  }  	  
+    	  return count;   
       }
       
       public static void main(String [] args){
     	  IsomorphicWords tester = new IsomorphicWords();
-    	  String [] names = {"aaa", "baa", "cdd", "ddd" };
+    	  String [] names = {"aa", "ab", "bb", "cc", "cd"};
     	  tester.countPairs(names);
     	  System.out.print(tester.countPairs(names));
       }
