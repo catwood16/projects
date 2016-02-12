@@ -1,15 +1,17 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-class Name implements Comparator<Name>, Comparable<Name>{
+class Bob implements Comparator<Bob>, Comparable<Bob>{
 	private String name;
 	private int word;
-	Name(){
+	
+	Bob(){
 	}
 	
-	Name(String n, int w){
+	Bob(String n, int w){
 		name = n;
 		word = w;
 	}
@@ -18,12 +20,20 @@ class Name implements Comparator<Name>, Comparable<Name>{
 		return name;
 	}
 	
-	public int compareTo(Name a){
-		return (this.name).compareTo(a.name);
+	public int getCount(){
+		return word;
 	}
 	
-	public int compare(Name a, Name b){
-		return b.word - a.word;
+	public int compareTo(Bob a){
+		return a.word - this.word;
+	}
+	
+	public int compare(Bob a, Bob b){
+		if (a != b){
+			return b.word - a.word;
+		}else{
+			return (b.name).compareTo(a.name);
+		}
 	}
 }
 
@@ -35,7 +45,7 @@ public class TheBestName {
   		  nameArray.add(names[i]);
   	  }
   	  
-  	  for (int i = 0; i < names.length; i++){
+  	  for (int i = 0; i < nameArray.size(); i++){
   		  if (nameArray.contains("JOHN")){
   			  nameArray.remove("JOHN");
   			  johnCount++;
@@ -43,34 +53,54 @@ public class TheBestName {
   	  }
   	  
   	  int[] nameCount = new int[nameArray.size()];
+
   	  
   	  for (int i = 0; i < nameArray.size(); i++){
   		  String uppernamesi = nameArray.get(i).toUpperCase();
   		  char[] chari = uppernamesi.toCharArray();
   		  for (int j = 1; j < nameArray.get(i).length(); j++){
-  			  nameCount[i] += (int) chari[j];
+  			  int b = (int) chari[j] - 64;
+  			  nameCount[i] += b;
   		  }
   	  }
   	  
-  	  List<Name> list = new ArrayList<Name>();
-  	  for (int i = 0; i < names.length; i++){
-  		  list.add(new Name(nameArray.get(i),nameCount[i]));
+  	  List<Bob> list = new ArrayList<Bob>();
+  	  for (int i = 0; i < nameArray.size(); i++){
+  		  list.add(new Bob(nameArray.get(i),nameCount[i]));
   	  }
-  	  Collections.sort(nameArray);
+  	  Collections.sort(list);
   	  
   	  String[] finalList = new String[nameArray.size() + johnCount];
+  	  int[] finalListCount = new int[nameArray.size() + johnCount];
+  	  for (int i = 0; i < johnCount; i++){
+  		  finalListCount[i] = 007;
+  	  }
   	  for (int i = 0; i < johnCount; i ++){
   		  finalList[i] = "JOHN";
   	  }
   	  
-  	  Collections.sort(list, new Name());
+  	  Collections.sort(list, new Bob());
   	  int ii = 0;
-  	  for (Name a: list){
-  		  finalList[johnCount + ii] = a.getName();
-  		  ii++;
-  	  }
+  	  for (Bob a: list){
+  		 finalList[johnCount + ii] = a.getName();
+  		 ii++;
+  	 }
   	  
   	  return finalList;
   	  
     }
+	public static void main(String[] args) {
+		TheBestName test = new TheBestName();
+		String[] input1 = {"VOLODYA", "STEPAN", "PETRO", "IHOR", "IVAN", "OLEG"};
+		System.out.println(Arrays.toString(input1));
+		String[] output1 = test.sort(input1);
+		System.out.println(Arrays.toString(output1));
+		
+		String[] input2 = {"Clinton", "Cruz", "Rubio", "Sanders", "Trump", "JOHN"};
+		System.out.println(Arrays.toString(input2));
+		String[] output2 = test.sort(input2);
+		System.out.println(Arrays.toString(output2));
+	}
+
+	
 }
