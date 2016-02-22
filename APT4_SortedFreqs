@@ -1,0 +1,75 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.List;
+
+public class SortedFreqs implements Comparator<SortedFreqs>{
+	
+	SortedFreqs(){
+	}
+	
+	private int freq;
+	private String data;
+	
+	SortedFreqs(String d, int f){
+		data = d;
+		freq = f;
+	}
+	
+	public String getData(){
+		return data;
+	}
+	
+	public int getFreq(){
+		return freq;
+	}
+	
+	@ Override
+	public int compare(SortedFreqs o1, SortedFreqs o2){
+		int returnval;
+		returnval = o1.data.compareTo(o2.data);
+		return returnval; 
+	}
+	
+	
+      public int[] freqs(String[] data) {
+    	  HashSet<String> noDoups = new HashSet<String>();
+    	  for (int i = 0; i < data.length; i++){
+    		  noDoups.add(data[i]);
+    	  }
+    	  
+    	  List<String> noDoupsList = new ArrayList<String>(noDoups);
+    	  int[] doupCount = new int [noDoupsList.size()];
+    	  for (int i = 0; i < noDoupsList.size(); i++){
+    		  for (int j = 0; j < data.length; j++){
+    			  if (noDoupsList.get(i).equals(data[j])){
+    				  doupCount[i] ++;
+    			  }
+    		  }
+    	  }
+    	  
+    	  List<SortedFreqs> sortList = new ArrayList<SortedFreqs>();
+    	  for(int i = 0; i < noDoupsList.size(); i++){
+    		  sortList.add(new SortedFreqs(noDoupsList.get(i), doupCount[i]));
+    	  }
+    	  
+    	  Collections.sort(sortList, new SortedFreqs());
+    	  
+    	  int[] sortedList = new int[noDoupsList.size()];
+    	  for (int i = 0; i < noDoupsList.size(); i++){
+    		  sortedList[i] = sortList.get(i).getFreq();
+    	  }
+    	  
+    	  return sortedList;
+      }
+      
+      public static void main(String[] args){
+    	  SortedFreqs test = new SortedFreqs();
+    	  String[] input = {"apple", "pear", "cherry", "apple", "cherry", "pear", "apple", "banana"};
+    	  System.out.println(Arrays.toString(input));
+    	  int[] output = test.freqs(input);
+    	  System.out.println(Arrays.toString(output));
+      }
+   }
